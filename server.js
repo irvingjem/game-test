@@ -1,15 +1,19 @@
-const express = require('express')
-const path = require('path')
-const http = require('http')
-const PORT = process.env.PORT || 3000
-const socketio = require('socket.io')
+// Node dependancies
+const express = require('express');
+const db = require("./config/connection");
+const routes = require ('./routes');
 
+// Server
 const app = express()
-const server = http.createServer(app)
-const io = socketio(server)
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(require('./routes'));
 
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")))
 
 // Start server
-server.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
+server.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`))
